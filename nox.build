@@ -1,0 +1,12 @@
+project "nem" {
+    version = file("./VERSION")
+    description = "The user-facing NEM launcher and runtime."
+    license = "Unlicense"
+    version_files = ["VERSION"]
+
+    rust_executable "nem" {
+        sources = ["src/main.rs"]
+        flags = []
+        install = true
+    }
+}
