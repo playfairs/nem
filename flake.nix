@@ -27,8 +27,8 @@
     in
     {
       packages = forAllSystems (pkgs: {
-        nem = pkgs.callPackage ./nix/buildPackage.nix { };
-        default = pkgs.callPackage ./nix/buildPackage.nix { };
+        nem = pkgs.callPackage ./nix/buildPackage.nix { inherit nemc; };
+        default = pkgs.callPackage ./nix/buildPackage.nix { inherit nemc; };
       });
 
       apps = forAllSystems (pkgs: {
