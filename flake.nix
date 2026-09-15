@@ -5,6 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     treefmt-nix.url = "github:numtide/treefmt-nix";
     nemc.url = "github:playfairs/nemc";
+    nox.url = "github:playfairs/nox";
   };
 
   outputs =
@@ -13,6 +14,7 @@
       nixpkgs,
       treefmt-nix,
       nemc,
+      nox,
     }:
     let
       systems = [
@@ -51,6 +53,7 @@
           packages = [
             self.packages.${pkgs.system}.default
             nemc.packages.${pkgs.system}.default
+            nox.packages.${pkgs.system}.default
             pkgs.clang
             pkgs.gcc
             pkgs.nixfmt
