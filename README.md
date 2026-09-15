@@ -1,52 +1,81 @@
 # NEM
 
-NEM is the native programming language itself.
+NEM is the language project for the NEM native programming language.
 
-This repository defines the language, its examples, and its language-level documentation. It does not contain the compiler implementation; that lives in the separate `nemc` repository.
+This repository is the canonical home for:
 
-## Purpose
+- the language definition
+- example programs
+- user-facing documentation
+- the runtime launcher that invokes the compiler
 
-The language project answers the question:
+The implementation of the compiler itself lives in the separate `nemc` repository, while `nox` provides the build system used by the compiler tooling.
 
-> What is the NEM language?
+## What NEM is today
 
-The compiler project answers:
+The official compiler now supports the following language surface:
 
-> How does the official NEM compiler implement that language?
+- function declarations with typed parameters and optional return types
+- `int`, `string`, and `bool` scalar types
+- mutable and immutable local variables using `let mut` and `let`
+- integer literals, string literals, and boolean literals (`true`, `false`)
+- comparison operators: `==`, `!=`, `<`, `<=`, `>`, `>=`
+- boolean operators: `&&`, `||`, `!`
+- assignment with `=` for mutable variables
+- `if ... else` conditionals and `while` loops
+- `return` statements and flow-sensitive missing-return checking
+- lexical scope and semantic validation for types and mutability
 
-## Current language shape
+This repository documents the language as it exists, not a larger design wishlist.
 
-NEM is a small typed language with a frontend pipeline based on tokens, parsing, semantic analysis, and IR lowering. The language includes concepts such as:
-
-- typed function declarations
-- typed parameters
-- return types
-- integer and string values
-- variables and lexical scopes
-- function calls
-- basic semantic validation
-
-A simple example is:
+## Example
 
 ```text
-fn add(a: int, b: int) -> int {
-    return a + b;
+fn is_even(value: int) -> bool {
+    if value % 2 == 0 {
+        return true;
+    }
+    return false;
 }
 
 fn main() {
-    let x: int = 20;
-    let y: int = 22;
-    let result: int = add(x, y);
-    print(result);
+    let mut x: int = 0;
+    while x < 5 {
+        if is_even(x) {
+            print("even");
+        } else {
+            print("odd");
+        }
+        x = x + 1;
+    }
 }
 ```
 
-## Repository separation
+The example above reflects the current language shape and the behavior validated by the compiler project.
 
-- `nem`: language definition, documentation, examples, and language-level materials
-- `nemc`: official compiler implementation, lexer, parser, AST, NEMantics, diagnostics, IR, backend, and tests
-- `nox`: build system used to build the compiler
+## Repository roles
 
-## Development notes
+- `nem`: language docs, examples, project pages, and runtime launcher
+- `nemc`: compiler source code, lexer, parser, semantics, IR lowering, backend, and tests
+- `nox`: build system used across the toolchain
 
-The language repository remains a specification and examples project rather than a compiler source tree. The implementation-specific code and generated build artifacts live in the compiler repository.
+## Quickstart
+
+Install the compiler and then run a NEM program with the launcher:
+
+```bash
+nem hello.nem
+```
+
+The launcher resolves `nemc` from `NEMC` or from the environment `PATH`. If the compiler is not installed, it exits with a clear message telling you how to configure it.
+
+## Docs
+
+- [docs/README.md](docs/README.md)
+- [docs/language/overview.md](docs/language/overview.md)
+- [docs/language/syntax.md](docs/language/syntax.md)
+- [docs/language/semantics.md](docs/language/semantics.md)
+
+## Examples
+
+The canonical examples are kept under [examples/basics](examples/basics).
